@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <style type="text/css">
+        header {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            overflow-x: scroll;
+            background-color: #f2f2f2;
+            position: fixed;
+            top:0;
+            left:0;
+            z-index: 900;
+            padding:0 28px 0 12px;
+        }
+        header::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav {
+            display: inline-block;
+            margin-left: 15px;
+            margin-right: 10px;
+            height: 50px;
+            line-height: 50px;
+            text-decoration: none;
+            color: #000;
+        }
+        .active{
+            color: red;
+        }
+        .drop{
+            position: fixed;
+            width: 34px;
+            height: 40px;
+            background:#f2f2f2 url("https://www.51weiliang.com/static/pc/icon/xiajiantou.png")no-repeat 3px center;
+            top:0;
+            right:0;
+            z-index: 999;
+            background-size: 25px 25px;
+        }
+        .pull{
+            background:url("https://www.51weiliang.com/static/pc/icon/shangjiantou.png")no-repeat 3px center;
+            background-size: 25px 25px;
+        }
+        .drop_down{
+            display: block;
+            float: left;
+            line-height: 30px;
+            height: 30px;
+            margin:8px 16px 1px 0;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <a class="nav active1">
+        vue
+    </a>
+    <a class="nav">
+        react
+    </a>
+    <a class="nav">
+        小程序
+    </a>
+    <a class="nav">
+        koa
+    </a>
+    <a class="nav">
+        php
+    </a>
+    <a class="nav">
+        mysql
+    </a>
+    <a class="nav">
+        mongo
+    </a>
+    <a class="nav">
+        react-native
+    </a>
+    <a class="nav">
+        flutter
+    </a>
+</header>
+<div class="drop">
+</div>
+<script type="text/javascript">
+
+    //    滚动导航栏字体颜色变化
+    var $navs = $('.nav'),          // 导航
+        $sections = $('.con'),       // 模块
+        $window = $(window),
+        navLength = $navs.length - 1;
+
+    $window.on('scroll', function() {
+        var scrollTop = $window.scrollTop(),
+            len = navLength;
+
+        for (; len > -1; len--) {
+            var that = $sections.eq(len);
+            if (scrollTop >= that.offset().top) {
+                $navs.removeClass('active').eq(len).addClass('active');
+                break;
+            }
+        }
+    });
+    $(".drop").on("click",function(){
+        $(".nav").toggleClass("drop_down");
+        $(".drop").toggleClass("pull");
+    })
+    //    点击导航栏字体颜色变化
+    $(function(){
+        $(".nav").on("click",function(ev){
+            $(".nav").removeClass("drop_down");
+            $(".drop").removeClass("pull")
+            var moveX = $(this).position().left+$(this).parent().scrollLeft();
+            var pageX = document.documentElement.clientWidth;
+            var blockWidth = $(this).width();
+            console.log(moveX)
+            console.log(pageX);
+            console.log(blockWidth);
+            var left = moveX-(pageX/2)+(blockWidth/2);
+            console.log(left);
+            $(this).addClass("active").siblings().removeClass("active");
+            $("header").scrollLeft(left);
+        })
+    });
+</script>
+</body>
+</html>
